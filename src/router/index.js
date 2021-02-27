@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store';
 
@@ -16,6 +16,15 @@ const routes = [
     path: '/help',
     name: 'Help',
     component: () => import('../views/Help.vue'),
+    meta: {
+      layout: 'main',
+      auth: true,
+    }
+  },
+  {
+    path: '/request/:id',
+    name: 'Request',
+    component: () => import('../views/Request.vue'),
     meta: {
       layout: 'main',
       auth: true,
@@ -43,7 +52,9 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active',
 })
 
 router.beforeEach((to, from, next) => {

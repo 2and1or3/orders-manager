@@ -12,7 +12,8 @@ export function useAuthForm(type) {
     try {
       await store.dispatch(`auth/${type}`, values);
       router.push('/');
-    } catch (e) {}
+    } catch (e) {
+    }
   })
 
   const {
@@ -22,10 +23,10 @@ export function useAuthForm(type) {
   } = useField(
     'email',
     yup
-    .string()
-    .trim()
-    .required('Введите email')
-    .email('Необходимо ввести корректный email')
+      .string()
+      .trim()
+      .required('Введите email')
+      .email('Необходимо ввести корректный email')
   );
 
   const {
@@ -35,10 +36,10 @@ export function useAuthForm(type) {
   } = useField(
     'password',
     yup
-    .string()
-    .trim()
-    .required('Введите пароль')
-    .min(6, 'Пароль не может быть меньше 6 символов')
+      .string()
+      .trim()
+      .required('Введите пароль')
+      .min(6, 'Пароль не может быть меньше 6 символов')
   );
 
   return {
