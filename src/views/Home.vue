@@ -36,7 +36,7 @@ export default {
     const filter = ref({});
 
     const requests = computed(() => store
-        .getters.['request/requests']
+        .getters['request/requests']
         .filter((r) => {
           if (filter.value.name) {
             return r.name.includes(filter.value.name);

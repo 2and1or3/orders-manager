@@ -26,7 +26,8 @@ export default {
     async create({commit, dispatch}, payload) {
       try {
         const token = store.getters['auth/token'];
-        const {data} = await axios.post(`requests.json?auth=${token}`, payload);
+        const uid = store.getters['auth/uid'];
+        const {data} = await axios.post(`users/${uid}/requests.json?auth=${token}`, payload);
 
         commit('addRequest', {...payload, id: data.name});
 
@@ -46,9 +47,10 @@ export default {
     async load({commit, dispatch}) {
       try {
         const token = store.getters['auth/token'];
-        const {data} = await axios.get(`requests.json?auth=${token}`);
+        const uid = store.getters['auth/uid'];
+        const {data} = await axios.get(`users/${uid}/requests.json?auth=${token}`);
 
-        const requests = Object.keys(data).map((id) => ({...data[id], id}));
+        const requests = data ? Object.keys(data).map((id) => ({...data[id], id})) : [];
 
         commit('setRequests', requests);
 
@@ -63,7 +65,8 @@ export default {
     async loadOne({commit, dispatch}, id) {
       try {
         const token = store.getters['auth/token'];
-        const {data} = await axios.get(`requests/${id}.json?auth=${token}`);
+        const uid = store.getters['auth/uid'];
+        const {data} = await axios.get(`users/${uid}/requests/${id}.json?auth=${token}`);
 
         return data
       } catch (e) {
@@ -77,7 +80,8 @@ export default {
     async remove({dispatch}, id) {
       try {
         const token = store.getters['auth/token'];
-        await axios.delete(`requests/${id}.json?auth=${token}`);
+        const uid = store.getters['auth/uid'];
+        await axios.delete(`users/${uid}/requests/${id}.json?auth=${token}`);
 
         dispatch('setMessage', {
           value: 'Заявка удалена',
@@ -94,7 +98,8 @@ export default {
     async update({dispatch}, request) {
       try {
         const token = store.getters['auth/token'];
-        await axios.put(`requests/${request.id}.json?auth=${token}`, request);
+        const uid = store.getters['auth/uid'];
+        await axios.put(`users/${uid}/requests/${request.id}.json?auth=${token}`, request);
 
         dispatch('setMessage', {
           value: 'Заявка обновлена',
